@@ -1,0 +1,9 @@
+name: uspas_ml
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - numpy
+  - scipy
+  - matplotlib
+  - keras
