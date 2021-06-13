@@ -1,0 +1,10 @@
+ipykernel
+jupyterlab
+torch
+botorch
+pygmo
+matplotlib 
+scipy
+scikit-learn
+pandas
+seaborn
