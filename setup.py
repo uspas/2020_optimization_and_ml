@@ -15,8 +15,11 @@ setup(
     package_dir={'accelerator_toy_models':'accelerator_toy_models'},
     author='X',
     author_email='X@X',
+    url='https://github.com/slaclab/USPAS_ML',
     keywords='USPAS ML',
     description='Supplemental package for USPAS ML Labs',
+    #long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     install_requires=requirements,
     include_package_data=True,
     python_requires='>=3.6'
