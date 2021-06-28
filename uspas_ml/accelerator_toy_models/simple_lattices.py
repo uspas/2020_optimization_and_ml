@@ -47,7 +47,7 @@ def create_triplet(K):
         Arguments
         ---------
 
-        K : torch.tensor, shape = (1,3)
+        K : torch.tensor, shape = (3,)
             Geometric quadrupole strengths (units: 1/m**2)
 
     '''
