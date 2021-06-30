@@ -34,15 +34,15 @@ def propagate(bunch_n_particles=1000, bunch_rms_z=1.e-3,
         arc_r56, arc_r566: floats (in meter)
             The coeficients of the energy-dependent delay induced by the arc:
             z -> z + r56*delta + t566*delta**2
-            
+
         Returns
         -------
         rms_z : float (meters)
             Longitudinal bunch length
-        
+
         rms_delta : float (None)
             RMS bunch energy deviation from reference
-            
+
         """
         # Generate the bunch before the linac, with random Gaussian distribution
         bunch_z = torch.randn(bunch_n_particles) * bunch_rms_z
@@ -54,15 +54,15 @@ def propagate(bunch_n_particles=1000, bunch_rms_z=1.e-3,
         phi = linac_phase * 2*cst.pi/360. # Convert from degrees to radians
         E0_over_E1 = bunch_mean_E/linac_final_E
         bunch_delta = E0_over_E1 * bunch_delta.clone() + \
-          (1. - E0_over_E1)*(torch.cos(k*bunch_z + phi)/torch.cos(torch.tensor(phi)) -1)
+          (1. - E0_over_E1)*(torch.cos(k*bunch_z + phi)/torch.cos(phi) -1)
 
         # Analytical change in position (z) after the bunch propagates in the arc
         # z -> z + r56*delta + t566*delta**2
         bunch_z = bunch_z + arc_r56*bunch_delta + \
                         arc_r566*bunch_delta**2
-        
+
         #add noise to the observations
         bunch_delta += torch.randn(1)*1e-4
         bunch_z += torch.randn(1)*1e-3
-        
+
         return torch.hstack((bunch_z.std(), bunch_delta.std())).reshape(1,-1)
