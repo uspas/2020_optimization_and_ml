@@ -1,10 +1,6 @@
-ipykernel
-jupyterlab
+numpy
 torch
-botorch
-pygmo
 matplotlib 
 scipy
-scikit-learn
-pandas
-seaborn
+
+
