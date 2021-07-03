@@ -10,7 +10,7 @@ from common.noise import OUNoise
 
 class DDPGAgent:
     
-    def __init__(self, env, gamma, tau, buffer_maxlen, critic_learning_rate, actor_learning_rate):
+    def __init__(self, env, gamma, tau, buffer_maxlen, critic_learning_rate, actor_learning_rate, max_action=1):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         
         self.env = env
@@ -19,6 +19,7 @@ class DDPGAgent:
         self.noise = OUNoise(env.action_space)
         self.iter = 0.0
         self.noisy = False
+        self.max_action= max_action
         
         print(self.action_dim)
         print(self.obs_dim)
@@ -32,7 +33,7 @@ class DDPGAgent:
         self.critic = Critic(self.obs_dim, self.action_dim).to(self.device)
         self.critic_target = Critic(self.obs_dim, self.action_dim).to(self.device)
         
-        self.actor = Actor(self.obs_dim, self.action_dim).to(self.device)
+        self.actor = Actor(self.obs_dim, self.action_dim,self.max_action).to(self.device)
         self.actor_target = Actor(self.obs_dim, self.action_dim).to(self.device)
     
         # Copy target network paramters for critic
@@ -46,7 +47,7 @@ class DDPGAgent:
         self.replay_buffer = ExperienceReplayLog(buffer_maxlen)        
         
     def get_action(self, obs):
-        print('obs;',obs)
+        #print('obs;',obs)
         
         if self.noisy == True:
             state = torch.FloatTensor(obs).unsqueeze(0).to(self.device)
